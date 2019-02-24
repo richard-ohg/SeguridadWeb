@@ -86,6 +86,25 @@ def filterData(request, file_rules):
                 if not checkPatternRegexOrIregex(operator, pattern, body[-1]):
                     return False
                 print("Se aplicó la variable CUERPO en regla: ", rule['id_rule'])
+            elif var == "CLIENTE_IP":
+                pattern = 'Host: {}'.format(pattern)
+                if not checkPatternRegexOrIregex(operator, pattern, request):
+                    return False
+                print("Se aplicó la variable CLIENTE_IP en regla: ", rule['id_rule'])
+            # elif var == "CABECERAS_VALORES":
+            #     # Recorremos la lista que se creo con cada renglon de la petición
+            #     for header in arg:
+                    
+
+            #     if not checkPatternRegexOrIregex(operator, pattern, request):
+            #         return False
+            #     print("Se aplicó la variable CABECERAS_VALORES en regla: ", rule['id_rule'])
+            # elif var == "CABECERAS_NOMBRE":
+            #     pattern = 'Host: {}'.format(pattern)
+            #     if not checkPatternRegexOrIregex(operator, pattern, request):
+            #         return False
+            #     print("Se aplicó la variable CABECERAS_NOMBRE en regla: ", rule['id_rule'])
+            
              
 
                 
