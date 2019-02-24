@@ -1,0 +1,12 @@
+
+------------------------------------------------------------------------------------------------
+
+[Fri Feb 22 20:55:15 2019] ip_client:192.168.1.1 - port_client:1234 - ip_dest:192.168.1.2 - port_dest:4321 - id_rule:1 - description:Bloqueo de método TRACE de HTTP - request:fooooooooo
+
+------------------------------------------------------------------------------------------------
+
+[Fri Feb 22 20:55:16 2019] ip_client:192.168.1.1 - port_client:1234 - ip_dest:192.168.1.2 - port_dest:4321 - id_rule:1 - description:Bloqueo de método TRACE de HTTP - request:fooooooooo
+
+------------------------------------------------------------------------------------------------
+
+[Fri Feb 22 20:55:17 2019] ip_client:192.168.1.1 - port_client:1234 - ip_dest:192.168.1.2 - port_dest:4321 - id_rule:1 - description:Bloqueo de método TRACE de HTTP - request:fooooooooo

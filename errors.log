@@ -1,0 +1,4 @@
+[Fri Feb 22 17:01:58 2019] [error:403] [client POST /post.cgi HTTP/1.1] Error con permisos: post.cgi
+[Fri Feb 22 17:04:06 2019] [error:403] [client POST /post.cgi HTTP/1.1] Error con permisos: post.cgi
+[Fri Feb 22 17:04:49 2019] [error:403] [client POST /post.cgi HTTP/1.1] Error con permisos: post.cgi
+[Fri Feb 22 17:08:03 2019] [error:403] [client POST /post.cgi HTTP/1.1] Error con permisos: post.cgi
