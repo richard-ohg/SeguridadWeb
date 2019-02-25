@@ -284,11 +284,14 @@ if __name__ == "__main__":
         # En caso de que se active el waf, filtrar el request que le llega al servidor
         if opt.waf:
             data_filter, id_rule, description_rule = waf.filterData(data, opt.waf)
+            # En caso de que se filtren datos o no reciba nada el servidor, terminamos el ciclo y reportamos datos
+            if not data_filter:
+                waf.createAuditLog(opt.waf_log, addr[0], addr[1], getHeaderHost(data.split('\r\n')).split(':')[0], opt.port, id_rule, description_rule, data)
+                # conn.sendall(createResponse(200, 'OK', 'text/html', proc.stdout.read().decode('utf-8')).encode('utf-8')) 
+                print("Waf bloqueó el request")
+                conn.close()
+                continue
         
-        # En caso de que se filtren datos o no reciba nada el servidor, terminamos el ciclo y reportamos datos
-        if not data_filter:
-            waf.createAuditLog(opt.waflog, addr[0], addr[1], getHeaderHost(data.split('\r\n')), opt.port, id_rule, description_rule, data)
-            break
         
         # Lista generada a partir de un split a la petición
         arg = data.split() 

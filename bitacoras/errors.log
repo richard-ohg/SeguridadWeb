@@ -1,5 +1,0 @@
-[Fri Feb 22 16:56:24 2019] [error:404] [client GET /favicon.ico HTTP/1.1] Recurso no encontrado: favicon.ico
-[Fri Feb 22 16:56:24 2019] [error:404] [client GET /favicon.ico HTTP/1.1] Recurso no encontrado: favicon.ico
-[Fri Feb 22 16:56:41 2019] [error:403] [client POST /post.cgi HTTP/1.1] Error con permisos: post.cgi
-[Fri Feb 22 16:57:16 2019] [error:403] [client GET /hola.py HTTP/1.1] No tiene permisos: hola.py
-[Fri Feb 22 16:59:20 2019] [error:403] [client POST /post.cgi HTTP/1.1] Error con permisos: post.cgi
