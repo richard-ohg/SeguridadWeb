@@ -371,17 +371,17 @@ if __name__ == "__main__":
             arg3 = data.split('\r\n\r\n')
             
             # Filtramos el query de la petición
-            query = arg3[-1]+'\n'
+            body = arg3[-1]+'\n'
 
             # Asignamos las variables de entorno para el estandar cgi
             env = setEnviromentVar(str(os.getcwd()), str(addr[1]), str(addr[0]), str(opt.port), user_agent, method, hostEnv, cookie, http_referer = http_referer)
-            
+        
             #try - except para manejo de errores 
             try:
                 # Ejecutamos el archivo .cgi poniendole un PIPE en su entrada estándar y un PIPE en su salida estándar asignandole las variables de entorno
-                with subprocess.Popen(['post.cgi'], stdin=subprocess.PIPE, stdout=subprocess.PIPE, env=env) as proc: 
-                    # Le pasamos a la entrada estándar la query
-                    proc.stdin.write(query.encode('utf-8'))
+                with subprocess.Popen([name_file], stdin=subprocess.PIPE, stdout=subprocess.PIPE, env=env) as proc: 
+                    # Le pasamos a la entrada estándar la body
+                    proc.stdin.write(body.encode('utf-8'))
                     # Cerramos el flujo a la entrada estándar
                     proc.stdin.close()
                     # Enviamos la respuesta con código 200 y la ejecución del archivo
