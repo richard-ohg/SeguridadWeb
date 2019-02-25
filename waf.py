@@ -129,14 +129,14 @@ def filterData(request, file_rules):
                 # Checamos si evaluamos la expresión regular como iregex o regex
                 if checkPatternRegexOrIregex(operator, pattern, method):
                     # Retornamos False en caso de que haya coincidencia
-                    return False
+                    return False, rule['id_rule'], rule['description']
                 print("Se aplicó la variable METODO en regla: ", rule['id_rule'])
             # Checamos el recurso
             elif var == "RECURSO":
                 # Checamos si evaluamos la expresión regular como iregex o regex
                 if checkPatternRegexOrIregex(operator, pattern, query):
                     # Retornamos False en caso de que haya coincidencia
-                    return False
+                    return False, rule['id_rule'], rule['description']
                 print("Se aplicó la variable RECURSO en regla: ", rule['id_rule'])
             elif var == "AGENTE_USUARIO":
                 # Generamos la expresión regular
@@ -144,7 +144,7 @@ def filterData(request, file_rules):
                 # Checamos si evaluamos la expresión regular como iregex o regex
                 if checkPatternRegexOrIregex(operator, pattern, request):
                     # Retornamos False en caso de que haya coincidencia
-                    return False
+                    return False, rule['id_rule'], rule['description']
                 print("Se aplicó la variable AGENTE-USUARIO en regla: ", rule['id_rule'])
             # Checamos en el cuerpo de la petición
             elif var == "CUERPO":
@@ -153,7 +153,7 @@ def filterData(request, file_rules):
                 # Checamos si evaluamos la expresión regular como iregex o regex
                 if checkPatternRegexOrIregex(operator, pattern, body[-1]):
                     # Retornamos False en caso de que haya coincidencia
-                    return False
+                    return False, rule['id_rule'], rule['description']
                 print("Se aplicó la variable CUERPO en regla: ", rule['id_rule'])
             # Checamos en el host de la petición
             elif var == "CLIENTE_IP":
@@ -162,14 +162,14 @@ def filterData(request, file_rules):
                 # Checamos si evaluamos la expresión regular como iregex o regex
                 if checkPatternRegexOrIregex(operator, pattern, request):
                     # Retornamos False en caso de que haya coincidencia
-                    return False
+                    return False, rule['id_rule'], rule['description']
                 print("Se aplicó la variable CLIENTE_IP en regla: ", rule['id_rule'])
             # Checamos en la primera línea de la petición
             elif var == "PETICION_LINEA":
                 # Checamos si evaluamos la expresión regular como iregex o regex
                 if checkPatternRegexOrIregex(operator, pattern, arg[0]):
                     # Retornamos False en caso de que haya coincidencia
-                    return False
+                    return False, rule['id_rule'], rule['description']
                 print("Se aplicó la variable PETICION_LINEA en regla: ", rule['id_rule'])
             # Checamos en las cookies de la petición
             elif var == "COOKIES":
@@ -178,7 +178,7 @@ def filterData(request, file_rules):
                 # Checamos si evaluamos la expresión regular como iregex o regex
                 if checkPatternRegexOrIregex(operator, pattern, request):
                     # Retornamos False en caso de que haya coincidencia
-                    return False
+                    return False, rule['id_rule'], rule['description']
                 print("Se aplicó la variable COOKIES en regla: ", rule['id_rule'])
             # Checamos en todas las cabeceras de la petición
             elif var == "CABECERAS":
@@ -187,7 +187,7 @@ def filterData(request, file_rules):
                 # Checamos si evaluamos la expresión regular como iregex o regex
                 if checkPatternRegexOrIregex(operator, pattern, headers[0]):
                     # Retornamos False en caso de que haya coincidencia
-                    return False
+                    return False, rule['id_rule'], rule['description']
                 print("Se aplicó la variable CABECERAS en regla: ", rule['id_rule'])       
             # Checamos en los valores de las cabeceras de la petición
             elif var == "CABECERAS_VALORES":
@@ -198,7 +198,7 @@ def filterData(request, file_rules):
                     # Checamos si evaluamos la expresión regular como iregex o regex
                     if checkPatternRegexOrIregex(operator, pattern, value):
                         # Retornamos False en caso de que haya coincidencia
-                        return False
+                        return False, rule['id_rule'], rule['description']
                 print("Se aplicó la variable CABECERAS_VALORES en regla: ", rule['id_rule'])
             elif var == "CABECERAS_NOMBRES":
                 # Obtenemos un diccionario de las cabeceras de la petición
@@ -208,7 +208,7 @@ def filterData(request, file_rules):
                     # Checamos si evaluamos la expresión regular como iregex o regex
                     if not checkPatternRegexOrIregex(operator, pattern, header):
                         # Retornamos False en caso de que haya coincidencia
-                        return False
+                        return False, rule['id_rule'], rule['description']
                 print("Se aplicó la variable CABECERAS_NOMBRES en regla: ", rule['id_rule'])
     # Retornamos el request en caso de que no haya tenido ningún problema
     return request
@@ -216,7 +216,7 @@ def filterData(request, file_rules):
 
 
 
-
+# Función main para hacer pruebas del waf 
 if __name__ == "__main__":
     
     # createAuditLog("audit.log","192.168.1.1","1234","192.168.1.2","4321",'1','Bloqueo de método TRACE de HTTP','fooooooooo')
