@@ -26,16 +26,16 @@ def createAuditLog(file, ip_client, port_client, ip_dest, port_dest, id_rule, de
         :param description: descripción de la regla
         :param request: petición que se hizo
     '''
-    report = 'echo "\n------------------------------------------------------------------------------------------------\n\n[' + \
+    report = 'echo "\n--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n\n[' + \
     datetime.datetime.now().strftime("%c") + \
-    '] ip_client: {}' +\
-    ' - port_client: {}' +\
-    ' - ip_dest: {}' +\
-    ' - port_dest: {}' +\
-    ' - id_rule: {}' +\
-    ' - description: {}' +\
-    ' - request: {}' +\
-    '" >> audit.log'.format(ip_client, port_client, ip_dest, port_dest, id_rule, description, request)
+'] ip_client: {} \
+- port_client: {} \
+- ip_dest: {} \
+- port_dest: {} \
+- id_rule: {} \
+- description: {} \
+- request: \n{} \
+" >> audit.log'.format(ip_client, port_client, ip_dest, port_dest, id_rule, description, request)
     os.system(report)
 
 def getDictionaryRule(rule):
@@ -130,14 +130,14 @@ def filterData(request, file_rules):
                 if checkPatternRegexOrIregex(operator, pattern, method):
                     # Retornamos False en caso de que haya coincidencia
                     return False, rule['id_rule'], rule['description']
-                print("Se aplicó la variable METODO en regla: ", rule['id_rule'])
+                # print("Se aplicó la variable METODO en regla: ", rule['id_rule'])
             # Checamos el recurso
             elif var == "RECURSO":
                 # Checamos si evaluamos la expresión regular como iregex o regex
                 if checkPatternRegexOrIregex(operator, pattern, query):
                     # Retornamos False en caso de que haya coincidencia
                     return False, rule['id_rule'], rule['description']
-                print("Se aplicó la variable RECURSO en regla: ", rule['id_rule'])
+                # print("Se aplicó la variable RECURSO en regla: ", rule['id_rule'])
             elif var == "AGENTE_USUARIO":
                 # Generamos la expresión regular
                 pattern = 'User-Agent: {}'.format(pattern)
@@ -145,7 +145,7 @@ def filterData(request, file_rules):
                 if checkPatternRegexOrIregex(operator, pattern, request):
                     # Retornamos False en caso de que haya coincidencia
                     return False, rule['id_rule'], rule['description']
-                print("Se aplicó la variable AGENTE-USUARIO en regla: ", rule['id_rule'])
+                # print("Se aplicó la variable AGENTE-USUARIO en regla: ", rule['id_rule'])
             # Checamos en el cuerpo de la petición
             elif var == "CUERPO":
                 # Separamos la petición en las cabeceras y el cuerpo
@@ -154,7 +154,7 @@ def filterData(request, file_rules):
                 if checkPatternRegexOrIregex(operator, pattern, body[-1]):
                     # Retornamos False en caso de que haya coincidencia
                     return False, rule['id_rule'], rule['description']
-                print("Se aplicó la variable CUERPO en regla: ", rule['id_rule'])
+                # print("Se aplicó la variable CUERPO en regla: ", rule['id_rule'])
             # Checamos en el host de la petición
             elif var == "CLIENTE_IP":
                 # Generamos la expresión regular
@@ -163,14 +163,14 @@ def filterData(request, file_rules):
                 if checkPatternRegexOrIregex(operator, pattern, request):
                     # Retornamos False en caso de que haya coincidencia
                     return False, rule['id_rule'], rule['description']
-                print("Se aplicó la variable CLIENTE_IP en regla: ", rule['id_rule'])
+                # print("Se aplicó la variable CLIENTE_IP en regla: ", rule['id_rule'])
             # Checamos en la primera línea de la petición
             elif var == "PETICION_LINEA":
                 # Checamos si evaluamos la expresión regular como iregex o regex
                 if checkPatternRegexOrIregex(operator, pattern, arg[0]):
                     # Retornamos False en caso de que haya coincidencia
                     return False, rule['id_rule'], rule['description']
-                print("Se aplicó la variable PETICION_LINEA en regla: ", rule['id_rule'])
+                # print("Se aplicó la variable PETICION_LINEA en regla: ", rule['id_rule'])
             # Checamos en las cookies de la petición
             elif var == "COOKIES":
                 # Generamos la expresión regular
@@ -179,7 +179,7 @@ def filterData(request, file_rules):
                 if checkPatternRegexOrIregex(operator, pattern, request):
                     # Retornamos False en caso de que haya coincidencia
                     return False, rule['id_rule'], rule['description']
-                print("Se aplicó la variable COOKIES en regla: ", rule['id_rule'])
+                # print("Se aplicó la variable COOKIES en regla: ", rule['id_rule'])
             # Checamos en todas las cabeceras de la petición
             elif var == "CABECERAS":
                 # Separamos entre los heards y el cuerpo de la petición
@@ -188,18 +188,18 @@ def filterData(request, file_rules):
                 if checkPatternRegexOrIregex(operator, pattern, headers[0]):
                     # Retornamos False en caso de que haya coincidencia
                     return False, rule['id_rule'], rule['description']
-                print("Se aplicó la variable CABECERAS en regla: ", rule['id_rule'])       
+                # print("Se aplicó la variable CABECERAS en regla: ", rule['id_rule'])       
             # Checamos en los valores de las cabeceras de la petición
             elif var == "CABECERAS_VALORES":
                 # Obtenemos un diccionario de las cabeceras de la petición
                 headers = getValueHeaders(arg)
                 # Recorremos ese diccionario obteniendo su llave,valor
-                for header,value in arg.items():   
+                for header,value in headers.items():   
                     # Checamos si evaluamos la expresión regular como iregex o regex
                     if checkPatternRegexOrIregex(operator, pattern, value):
                         # Retornamos False en caso de que haya coincidencia
                         return False, rule['id_rule'], rule['description']
-                print("Se aplicó la variable CABECERAS_VALORES en regla: ", rule['id_rule'])
+                # print("Se aplicó la variable CABECERAS_VALORES en regla: ", rule['id_rule'])
             elif var == "CABECERAS_NOMBRES":
                 # Obtenemos un diccionario de las cabeceras de la petición
                 headers = getValueHeaders(arg)
@@ -209,9 +209,9 @@ def filterData(request, file_rules):
                     if not checkPatternRegexOrIregex(operator, pattern, header):
                         # Retornamos False en caso de que haya coincidencia
                         return False, rule['id_rule'], rule['description']
-                print("Se aplicó la variable CABECERAS_NOMBRES en regla: ", rule['id_rule'])
+                # print("Se aplicó la variable CABECERAS_NOMBRES en regla: ", rule['id_rule'])
     # Retornamos el request en caso de que no haya tenido ningún problema
-    return request
+    return request, "", ""
                 
 
 
@@ -219,7 +219,7 @@ def filterData(request, file_rules):
 # Función main para hacer pruebas del waf 
 if __name__ == "__main__":
     
-    # createAuditLog("audit.log","192.168.1.1","1234","192.168.1.2","4321",'1','Bloqueo de método TRACE de HTTP','fooooooooo')
+    createAuditLog("audit.log","192.168.1.1","1234","192.168.1.2","4321",'1','Bloqueo de método TRACE de HTTP','fooooooooo')
 
     request = """GET / HTTP/1.1\r
 Host: localhost:8080\r
@@ -232,7 +232,7 @@ Accept-Encoding: gzip, deflate, br\r
 Accept-Language: es-ES,es;q=0.9\r
 Cookie: _xsrf=2|8bbbe995|26cc979cfff4e871672d656fe9871cb5|1550340508; username-localhost-8888="2|1:0|10:1550938954|23:username-localhost-8888|44:NmE1MmQ0ZmU4YmUxNGJmOGFhNDJiZTgyZWYzNWQ1N2I=|03a69f96c2b79be1b46793b14663ab61e0ec27f349a0d253d37dcbeb410ff293"\r\n\r\n"""
 
-    filterData(request,"reglas.txt")
-    getValueHeaders(request.split('\r\n'))
+    # filterData(request,"reglas.txt")
+    # getValueHeaders(request.split('\r\n'))
     # print(readFile("reglas.txt"))
 
