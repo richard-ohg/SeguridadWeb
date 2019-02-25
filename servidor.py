@@ -57,7 +57,8 @@ def options():
     parser.add_option('-p','--port', dest='port', type=int, default=8080, help='Puerto del servidor.')
     parser.add_option('-d','--directory', dest='directory', default='.', help='Directorio a mostrar')
     parser.add_option('-b','--bitacora', dest='bitacora', default='.', help='Directorio para bitacora')
-    parser.add_option('-w','--waf', dest='waf', default=False, help='Archivo de reglas para wl WAF')
+    parser.add_option('-w','--waf', dest='waf', default=None, help='Archivo de reglas para wl WAF')
+    parser.add_option('-a','--waflog', dest='waf_log', default="audit.log", help='Archivo para guardas los bloqueos que haga el WAF')
     opts,args = parser.parse_args()
     return opts
 
@@ -279,9 +280,14 @@ if __name__ == "__main__":
         
         # Obtenemos los datos enviados por el socket
         data = conn.recv(1024).decode()
+
+        # En caso de que se active el waf, filtrar el request que le llega al servidor
+        if opt.waf:
+            data_filter, id_rule, description_rule = waf.filterData(data, opt.waf)
         
-        # Si no se ha enviado nada, terminamos el ciclo
-        if not data:
+        # En caso de que se filtren datos o no reciba nada el servidor, terminamos el ciclo y reportamos datos
+        if not data_filter:
+            waf.createAuditLog(opt.waflog, addr[0], addr[1], getHeaderHost(data.split('\r\n')), opt.port, id_rule, description_rule, data)
             break
         
         # Lista generada a partir de un split a la petición
